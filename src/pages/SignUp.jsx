@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../firebase/firebase.config';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../firebase/firebase.config';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: 'lama dev',
+    email: 'admin@lama.dev',
+    password: 'lama@lama',
   });
 
   const { name, email, password } = formData;
@@ -52,6 +53,20 @@ const SignUp = () => {
       };
 
       await updateProfile(currentUser, displayName);
+
+      const profileData = {
+        ...formData,
+        user_ref: currentUser.uid,
+        created_at: serverTimestamp(),
+        bio: 'Add your bio here...',
+      };
+      delete profileData.password;
+
+      try {
+        await setDoc(doc(db, 'users', email), profileData);
+      } catch (e) {
+        console.error('Error adding document: ', e.message);
+      }
 
       if (user) {
         navigate('/');

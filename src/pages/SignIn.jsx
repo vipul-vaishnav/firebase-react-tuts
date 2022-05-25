@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase/firebase.config';
 
 const SignIn = () => {
@@ -37,6 +37,19 @@ const SignIn = () => {
         navigate('/');
       }
     } catch (error) {
+      alert('User not found');
+      console.log(error.message);
+    }
+  };
+
+  const onClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert('Password reset email sent successfully');
+    } catch (error) {
+      alert('Something went wrong!');
       console.log(error.message);
     }
   };
@@ -92,9 +105,9 @@ const SignIn = () => {
 
       <p className="flex items-center justify-start gap-4 font-bold text-gray-500">
         Forgot Passcode?/{' '}
-        <Link to="/signup" className="text-gray-800">
+        <button onClick={onClick} className="font-bold text-gray-800 border-0 outline-none">
           Reset
-        </Link>
+        </button>
       </p>
     </div>
   );
