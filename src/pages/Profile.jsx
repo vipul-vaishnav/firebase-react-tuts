@@ -56,7 +56,6 @@ const Profile = () => {
       const docRef = doc(db, 'users', user.email);
 
       await updateDoc(docRef, { bio });
-
       setEditBio(true);
     } catch (error) {
       alert('Bio not updated');
@@ -93,7 +92,7 @@ const Profile = () => {
           />
           {editBio === true ? (
             <button
-              className="absolute text-lg text-red-500 top-7 right-4 sm:right-6"
+              className="absolute text-lg text-red-500 top-6 right-4 sm:right-6"
               type="button"
               onClick={onClick}
             >
@@ -101,7 +100,7 @@ const Profile = () => {
             </button>
           ) : (
             <button
-              className="absolute text-lg text-red-500 top-7 right-4 sm:right-6"
+              className="absolute text-lg text-red-500 top-6 right-4 sm:right-6"
               type="submit"
             >
               <FaSave />
