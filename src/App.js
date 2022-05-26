@@ -8,19 +8,23 @@ import SignUp from './pages/SignUp';
 import Error from './pages/Error';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import NewPost from './pages/NewPost';
+import YourPosts from './pages/YourPosts';
 
 const App = () => {
   return (
     <>
-      <div className="w-full text-base text-white font-normal min-h-screen flex flex-col justify-between">
+      <div className="flex flex-col justify-between w-full min-h-screen text-base font-normal text-white">
         <Navbar />
-        <div className="text-white py-5 px-5 flex-1 flex justify-center items-center sm:px-12 bg-gray-700">
+        <div className="flex items-center justify-center flex-1 px-5 py-5 text-white bg-gray-700 sm:px-12">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/newpost" element={<NewPost />} />
+            <Route path="/posts" element={<YourPosts />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </div>

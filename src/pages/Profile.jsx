@@ -82,7 +82,7 @@ const Profile = () => {
             name="bio"
             id="bio"
             cols="40"
-            rows="6"
+            rows="4"
             value={bio}
             className={`${!editBio && 'border-b border-gray-900 bg-gray-200'} 
               w-full h-max text-gray-900 bg-gray-100 outline-0`}
@@ -123,7 +123,14 @@ const Profile = () => {
         </p>
       </div>
 
-      <div>
+      <div className="flex flex-col items-start justify-start gap-2 sm:flex-row">
+        <button
+          type="button"
+          onClick={() => navigate('/posts')}
+          className="px-8 py-2 text-lg font-bold text-red-500 bg-gray-900 border-0 rounded-md shadow-lg outline-0 hover:bg-red-500 hover:text-gray-900"
+        >
+          Your Posts
+        </button>
         <button
           type="button"
           onClick={logout}

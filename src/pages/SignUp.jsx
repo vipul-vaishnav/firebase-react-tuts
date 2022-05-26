@@ -59,6 +59,7 @@ const SignUp = () => {
         user_ref: currentUser.uid,
         created_at: serverTimestamp(),
         bio: 'Add your bio here...',
+        posts: [],
       };
       delete profileData.password;
 
