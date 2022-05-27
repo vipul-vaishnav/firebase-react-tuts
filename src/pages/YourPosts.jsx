@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase/firebase.config';
 import { onAuthStateChanged } from 'firebase/auth';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+import {
+  collection,
+  updateDoc,
+  arrayRemove,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  orderBy,
+  where,
+} from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegThumbsUp, FaThumbsUp, FaRegThumbsDown, FaThumbsDown } from 'react-icons/fa';
@@ -18,6 +28,8 @@ const YourPosts = () => {
         console.log('User not logged in');
       }
     });
+
+    const showArr = [];
 
     const getData = async () => {
       const userData = query(collection(db, 'users'), where('email', '==', userProfile.email));
@@ -40,8 +52,6 @@ const YourPosts = () => {
         postArr.push(post);
       });
 
-      const showArr = [];
-
       userPostArr.forEach((post) => {
         postArr.forEach((postData) => {
           if (postData.id === post) {
@@ -56,6 +66,27 @@ const YourPosts = () => {
 
     getData();
   }, [userProfile]);
+
+  const editPost = (e) => {
+    e.preventDefault();
+  };
+
+  const deletePost = async (id) => {
+    const docRef = doc(db, 'users', userProfile.email);
+
+    try {
+      // removing post form user post array
+      await updateDoc(docRef, {
+        posts: arrayRemove(id),
+      });
+      alert('Post deleted successfully');
+
+      // deleting post
+      await deleteDoc(doc(db, 'posts', id));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   if (auth.currentUser === null) {
     return (
@@ -123,6 +154,23 @@ const YourPosts = () => {
                     {new Date(post.posted_at.seconds * 1000).toLocaleString()}
                   </p>
                 </div>
+              </div>
+
+              <div className="flex flex-col gap-2 mt-6 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={editPost}
+                  className="px-8 py-2 text-base font-bold text-red-500 bg-gray-800 border-0 rounded-md shadow-lg sm:text-lg outline-0"
+                >
+                  Edit Post
+                </button>
+                <button
+                  type="button"
+                  onClick={() => deletePost(post.id)}
+                  className="px-8 py-2 text-base font-bold text-red-500 bg-gray-800 border-0 rounded-md shadow-lg sm:text-lg outline-0"
+                >
+                  Delete Post
+                </button>
               </div>
             </li>
           );

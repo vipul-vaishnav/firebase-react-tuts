@@ -45,7 +45,6 @@ const NewPost = () => {
       user_ref: auth.currentUser.uid,
     };
     const docRef = await addDoc(collection(db, 'posts'), postData);
-    console.log(docRef);
 
     // Creating a new post for the logged in user
     const userRef = doc(db, 'users', auth.currentUser.email);

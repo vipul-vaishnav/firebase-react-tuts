@@ -62,6 +62,8 @@ const Home = () => {
           Welcome Back!, <span className="text-red-500">{userProfile?.displayName}</span>
         </h1>
 
+        <h6 className="text-gray-400">Refresh now to see new feed</h6>
+
         <div className="text-white">
           <ul>
             {posts.map((post) => {
