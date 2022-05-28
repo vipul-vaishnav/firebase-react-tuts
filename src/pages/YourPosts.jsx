@@ -55,7 +55,7 @@ const YourPosts = () => {
       userPostArr.forEach((post) => {
         postArr.forEach((postData) => {
           if (postData.id === post) {
-            showArr.unshift(postData);
+            showArr.push(postData);
           }
         });
       });
@@ -81,7 +81,7 @@ const YourPosts = () => {
       });
       alert('Post deleted successfully');
 
-      // deleting post
+      // deleting post document from the posts collection
       await deleteDoc(doc(db, 'posts', id));
     } catch (error) {
       console.log(error.message);
